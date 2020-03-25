@@ -291,6 +291,81 @@ Container Orchestration
 Docker Cheetsheet
 ====
 
+Docker Image commands
+
+Docker Image:
+
+//build docker image from Dockerfile in current directory
+$ sudo docker built -t image_name .
+
+    //list all images
+    $ sudo docker images 
+
+    //Beaware: Remove all images not used by containers.
+    $ docker rmi $(docker images -a -q)
+
+    //to delete dangling images
+    $ docker rmi $(docker images -f "dangling=true" -q)
+    $ sudo docker rmi $(sudo docker images -f "dangling=true" -q)
+
+    //to delete untagged images
+    $ docker rmi $(docker images | grep "^<none>" | awk "{print $3}")
+    $ sudo docker rmi $(sudo docker images | grep "^<none>" | awk "{print $3}")
+
+    //download image from docker repo
+    $ docker pull rastasheep/ubuntu-sshd:14.04
+
+    //remove docker image
+    $ sudo docker rmi IMAGE_ID
+    $ sudo docker rmi 1cae187bc187
+    or
+    $ sudo docker rmi 1ca
+
+Docker Container commands:
+
+    //list running containers
+    $ sudo docker ps 
+
+    //list all containers
+    $ sudo docker ps -a   
+
+    //start new container (from ubuntu docker image)
+    //execute command /bin/bash
+    $ sudo docker run -i -t ubuntu /bin/bash
+
+    //run container as daemon and open all ports
+    $ sudo docker run -d -P DOCKER_IMAGE
+
+    //mapping ports
+    $ docker run -d -p 8080:8080 50000:50000 60000:22 DOCKER_IMAGE:TAG_NAME
+
+    //login to container
+    $ ssh root@localhost -p 32768
+    or
+    $ docker exec -t CONTAINER_ID bash
+
+    //stopping running container
+    $ sudo docker stop CONTAINER_ID
+
+    //removing stopped container
+    $ sudo docker rm CONTAINER_ID
+
+    //stopping and removing all containers
+    $ docker stop $(docker ps -a -q)
+    $ docker rm $(docker ps -a -q)
+
+
+    //commit “drunk_carson” container changes to “naseer/supervisor” DockerImage
+    $ sudo docker commit drunk_carson naseer/supervisor
+
+    Link:
+    //link mongodb container to nodejs container
+    $ sudo docker run -it -p 22 --link elated_pike:mongodb naseer/nodejs /bin/bash
+        elated_pike: mongodb container
+    mongodb: mongodb image
+    naseer/nodejs : nodejs container
+
+
 References
 =====
 - https://www.youtube.com/watch?v=fqMOX6JJhGo
