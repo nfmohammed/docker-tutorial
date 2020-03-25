@@ -15,6 +15,7 @@ Table of Contents
 - [Docker on Windows](#docker-on-windows)
 - [Docker on Mac](#docker-on-mac)
 - [Container Orchestration](#docker-orchestration)
+- [Docker Cheatsheet](#docker-cheatsheet)
 - [References](#references)
 
 Containers
@@ -288,7 +289,7 @@ Docker on Mac
 Container Orchestration
 ====
 
-Docker Cheetsheet
+Docker Cheatsheet
 ====
 
 Docker Image commands
