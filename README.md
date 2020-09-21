@@ -3,6 +3,7 @@ Table of Contents
 - [Docker Flow](#docker-flow)
 - [Containers](#containers)
 - [Exposing Ports](#exposing-ports)
+- [Dynamic Ports](#dynamic-ports)
 - [Port Mapping](#port-mapping)
 - [Volume Mapping](#volume-mapping)
 - [Environment Variables](#environment-variables)
@@ -100,7 +101,16 @@ Exposing Ports:
 
 ![](exposing-ports.jpg)
 
+Dynamic Ports
+====
 
+- Instead of specifying both inside/outside port number for container, we can chose to specify only the inside port. We will then be able to find the outside port using port command.
+
+- In this example, docker dynamically chose host ports 32777/32776 to map to 45678/45679 respectively.
+
+    $ docker port containerName
+
+![](dynamic-ports.jpg)
 
 Port Mapping:
 =====
