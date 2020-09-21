@@ -2,6 +2,7 @@ Table of Contents
 ====
 - [Docker Flow](#docker-flow)
 - [Containers](#containers)
+- [Exposing Ports](#exposing-ports)
 - [Port Mapping](#port-mapping)
 - [Volume Mapping](#volume-mapping)
 - [Environment Variables](#environment-variables)
@@ -67,6 +68,38 @@ Below is interactive which waits for user input but does not show the prompt que
 Below is interactive and we are attached to the container shell
     
     $ docker run -it kodekloud/simple-prompt-docker
+
+
+Exposing Ports:
+====
+
+- Start a container with port mapping. The port 45678 will be used for incoming data and 45679 will be used for output. Lets call it our `Test Container`
+
+    $ docker run --rm -ti -p 45678:45678 -p 45679:45679 --name echo-server ubuntu:14.04 bash
+
+    //execute below command, inside the container. Using netcat to listen to data on port 45678 and piping the same data out to port 45679
+    
+    $$$ nc -lp 45678 | nc -lp 45679
+    
+- Then we will create 2 more containers, one for sending data to `Test Container` and other to receive data from `Test Container`
+
+    //start 2nd container for transmitting data
+    $ docker run --rm -ti ubuntu:14.04 bash
+
+    (connect to host port 45678) 
+    $$$ nc host.docker.internal 45678
+
+    $$$ hello message from 2nd container
+
+    //start 3rd container to receive data
+    $ docker run --rum -ti ubuntu:14.04 bash
+
+    (connect to host port 45679)
+    $$$ nc host.docker.internal 45679
+    $$$ hello message from 2nd container
+
+![](exposing-ports.jpg)
+
 
 
 Port Mapping:
