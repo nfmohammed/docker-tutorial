@@ -42,7 +42,7 @@ Images
     or
     $ docker rmi imageId
 
-    
+
 
 Docker Image from Dockerfile
 ====
@@ -176,9 +176,53 @@ Below example maps 3 webapps to 3 different docker-host ports
 Volume Mapping:
 ====
 
+- There are two types of volume: Persitent and Ephemeral
+
+- Volumes are not part of images
+
+
 Mount host directory to directory inside the container
     
-    $ docker run -v /dir/in/docker/host:/var/lib/mysql mysql
+    $ mkdir example
+
+    $ docker run -ti -v /Users/nmohammed/example:/shared-folder ubuntu bash
+    (complete host path is required)
+
+    $$$ touch /shared-folder/my-data
+
+    $$$ exit
+    (exit the container)
+
+    $ ls example/my-data
+    (new directory is persisten on host)
+
+Example of ephemeral volumes or volumes shared between the containers. 
+
+    (terminal 1)
+    $ docker run -ti -v /shared-data ubuntu bash
+    (use persisted dir from above example)
+
+    (terminal 1)
+    $$$ echo hello > /shared-data/data-file
+
+    (terminal 2)
+    $ docker ps -l 
+    (get last container info)
+
+    (terminal 2)
+    $ docker run -ti --volumes-from lastContainerName ubuntu bash
+
+    (terminal 2)
+    $$$ ls /shared-data/data-file
+    (data-file is accessible in second container)
+
+    (terminal 1)
+    $$$ exit
+    (exit the first container but directory will still be accessible in terminal 2)
+
+
+
+
 
 Get information about a specific container
     
