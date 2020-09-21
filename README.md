@@ -9,7 +9,7 @@ Table of Contents
 - [Environment Variables](#environment-variables)
 - [Docker Image](#docker-image)
 - [CMD vs EntryPoint](#cmd-vs-entrypoint)
-- [Docker Networking](#docker-networking)
+- [Docker Networking](docker-networking.md)
 - [FileSystem and Storage](#filesystem-and-storage)
 - [Storage Drivers](#storage-drivers)
 - [Docker Compose](#docker-compose)
@@ -237,43 +237,6 @@ Modifying entrypoint during docker command
 
     $ docker run --entrypoint sleep2.0 ubuntu-sleeper 10
 
-Docker Networking
-====
-
-To inspect network info
-
-    $ docker inspect container_name
-    $ docker network ls
-
-When docker is installed, it creates 3 network
-    
-    - Bridge (default):  $docker run ubuntu 
-    - None:  $docker run ubuntu --network=none
-    - Host: $docker run ubuntu --network=host
-
-- Bridge Network:
-    - All containers receive ip address in range `172.17.0.x` and are accessible to one another.
-    - Containers can be accessed outside the host thru port mapping
-
-- None network:
-    - Container is not accessible outside the host
-
-- Host network:
-    - The port on container is the same port as that of the host. 
-    - If a webapp is started at port 5000 then another webapp will have to chose a different port on the host
-
-![docker-networks](docker-networks.png)
-
-To create networks within the docker-host
-
-    file:Dockerfile
-    
-    docker network create \
-        --driver bridge \
-        --subnet 182.18.0.0.16
-        custom-isolated-network
-
-![user-defined-network](user-defined-network.png)
 
 FileSystem and Storage
 ====
