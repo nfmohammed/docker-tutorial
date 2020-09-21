@@ -1,5 +1,6 @@
 Table of Contents
 ====
+- [Docker Flow](#docker-flow)
 - [Containers](#containers)
 - [Port Mapping](#port-mapping)
 - [Volume Mapping](#volume-mapping)
@@ -18,15 +19,22 @@ Table of Contents
 - [Docker Cheatsheet](#docker-cheatsheet)
 - [References](#references)
 
+Docker Flow
+====
+![](docker-flow.jpg)
+
+    $ docker run imageName (starts a container)
+    $ docker commit containerName (creates Image from container)
+
 Containers
 ====
 - Containers are alive as long as the process is running. If the process stops/crash, the container exists
 
-Download and Run container in attached mode
+Download the image and starts the container using the image, in attached mode
     
     $ docker run kodekloud/simple-webapp
 
-Running contianer in deattached mode (or in the background)
+Running contianer in deattached mode (leave container running in the background)
     
     $ docker run -d kodekloud/simple-webapp
 
@@ -34,6 +42,8 @@ To attach to the container previously running in deattached mode
 First few container ids should be sufficient.
     
     $ docker attach a0345d 
+    or 
+    $ docker attach containerName
 
 Executing command inside a container
 
@@ -252,6 +262,7 @@ New method of mounting volumes instead of `-v`
 
     $ docker run \
     --mount type=bind,source=/data/mysql,target=/var/lib/mysql mysql
+
 ![docker-volumes](docker-volumes.png)
 
 Storage Drivers
@@ -270,6 +281,18 @@ Storage Drivers
     - Device Mapper
     - Overlay
     - Overlay2
+
+Docker Logs
+====
+
+- It can be used to see why a container existed. 
+
+- In following example, lets start  a container but give wrong command
+
+    $ docker run --name example -d ubuntu bash -c "lose /etc/password"
+
+    $ docker logs example (outputs the log from container)
+    
 
 Docker Compose
 ====
