@@ -1,3 +1,8 @@
+- [Docker Netwoking example](#docker-networking-example)
+- [Docker Networking](#docker-networking)
+- [Legacy Linking](#legacy-linking)
+
+
 Docker Networking example
 ====
 
@@ -95,3 +100,47 @@ To create networks within the docker-host
 
 ![user-defined-network](user-defined-network.png)
 
+Legacy Linking
+====
+
+- Links all ports but only one way
+
+- Secret environment variables are shared only one way
+
+- Depends on startup order
+
+- Restart only sometimes break the links
+
+Commands
+
+    (terminal 1)
+    $ docker run --rm -ti -e SECRET=DockerTutorial --name catserver ubuntu:14.04 bash
+
+    (terminal 2)
+    $ docker run --rm -ti --link catserver --name dogserver ubuntu:14.04 bash
+
+    (terminal 1)
+    $$$ nc -lp 1234
+
+    (terminal 2)
+    $$$ nc catserver 1234
+    (dogserver will be able to send/receive msgs from catserver)
+
+    (terminal 2)
+    $$$ nc -lp 4321
+
+    (terminal 1)
+    $$$ nc dogserver 4321
+    catserver does not recognize dogserver because links work in one direction
+
+    (terminal 1)
+    $$$ env
+    SECRET=DockerTutorial
+    TERM=xterm
+    ....many other env properties....
+
+    (terminal 2)
+    $$$ env
+    CATSERVER_ENV_SECRET=DockerTutorial
+    ...many other env properties....
+    (So, env variables were copied from catserver to dogserver but not the other way around)

@@ -1,13 +1,14 @@
 Table of Contents
 ====
 - [Docker Flow](#docker-flow)
+- [Images](#images)
+- [Docker Image from Dockerfile](#docker-image-from-dockerfile)
 - [Containers](#containers)
 - [Exposing Ports](#exposing-ports)
 - [Dynamic Ports](#dynamic-ports)
 - [Port Mapping](#port-mapping)
 - [Volume Mapping](#volume-mapping)
 - [Environment Variables](#environment-variables)
-- [Docker Image](#docker-image)
 - [CMD vs EntryPoint](#cmd-vs-entrypoint)
 - [Docker Networking](docker-networking.md)
 - [FileSystem and Storage](#filesystem-and-storage)
@@ -27,6 +28,44 @@ Docker Flow
 
     $ docker run imageName (starts a container)
     $ docker commit containerName (creates Image from container)
+
+Images
+====
+
+    $ docker images
+    (lists docker images)
+
+    $ docker commit containerId newImageName
+    (creating image from container)
+
+    $  docker rmi image-name:tag
+    or
+    $ docker rmi imageId
+
+    
+
+Docker Image from Dockerfile
+====
+
+Create docker image using Dockerfile
+
+    file: Dockerfile
+    FROM Ubuntu
+    
+    RUN apt-get update
+    RUN apt-get install python
+
+    RUN pip install flask
+    RUN pip install flask-mysql
+
+    COPY . /opt/source-code
+
+    ENTRYPOINT FLASK_APP=/opt/source-code/app.py flask run
+
+Build the image 
+
+    $ docker build Dockerfile -t nfmohammed/my-custom-app
+    $ docker push nfmohammed/my-custom-app
 
 Containers
 ====
@@ -158,28 +197,6 @@ To find all the environment variables set on a container
 
     $ docker inspect container_name
 
-Docker Image
-====
-
-Create docker image using Dockerfile
-
-    file: Dockerfile
-    FROM Ubuntu
-    
-    RUN apt-get update
-    RUN apt-get install python
-
-    RUN pip install flask
-    RUN pip install flask-mysql
-
-    COPY . /opt/source-code
-
-    ENTRYPOINT FLASK_APP=/opt/source-code/app.py flask run
-
-Build the image 
-
-    $ docker build Dockerfile -t nfmohammed/my-custom-app
-    $ docker push nfmohammed/my-custom-app
 
 CMD vs EntryPoint
 ====
